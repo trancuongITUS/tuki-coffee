@@ -4,10 +4,12 @@ import { site } from '@/content/site'
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
 import { RevealObserver } from '@/components/reveal-observer'
+import { siteUrl } from '@/lib/site-url'
 import { themeInitScript } from '@/lib/theme'
 import './globals.css'
 
 export const metadata: Metadata = {
+  metadataBase: siteUrl,
   title: {
     default: `${site.name} · ${site.tagline}`,
     template: `%s · ${site.name}`,

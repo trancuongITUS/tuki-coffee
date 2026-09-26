@@ -12,6 +12,7 @@ Outputs:
     docs/brand/logo/png/*.png          raster exports for social media and print proofs
     src/components/logo-paths.ts       path data for the <Logo> component
     src/app/icon.svg, apple-icon.png   favicon and iOS home-screen icon (Next.js metadata files)
+    src/app/opengraph-image.png        link preview image for Facebook, Zalo and other apps
 """
 import math
 import os
@@ -272,7 +273,8 @@ def compact_files():
           svg(W, H, paint(*parts, C['cream'], C['caramel'], C['espresso'], (W, H))))
 
 
-def stacked():
+def stacked_parts():
+    """Stacked lockup at its natural size: (width, height, parts for `paint`)."""
     size, k = 150, 1.45
     _, _, width, tip = wordmark(0, 0, size)
     W = max(width, 100 * k) + 60
@@ -283,7 +285,12 @@ def stacked():
     word, wdrop, _, _ = wordmark(tx, base, size)
     coffee = coffee_line(tx + 4, base + 48, width - 6, 21)
     H = base + 48 + 30
-    write('tuki-lockup-stacked.svg', svg(W, H, paint(body, d, word, wdrop, coffee, C['roast'], C['orange'])))
+    return W, H, (body, d, word, wdrop, coffee)
+
+
+def stacked():
+    W, H, parts = stacked_parts()
+    write('tuki-lockup-stacked.svg', svg(W, H, paint(*parts, C['roast'], C['orange'])))
 
 
 def seal():
@@ -398,6 +405,31 @@ def app_icons():
     written.extend(['../../src/app/icon.svg', '../../src/app/apple-icon.png'])
 
 
+def og_image():
+    """Link preview for Facebook, Zalo and others (Next.js opengraph-image): 1200x630, the size both recommend.
+    Everything sits in the centre so square thumbnails in chat apps still show the whole lockup."""
+    W, H = 1200, 630
+    lw, lh, parts = stacked_parts()
+    k = 380 / lh
+    tagline = 'RANG MỘC · PHA TẬN TÂM'
+    size, track = 26, 0.16
+    _, tw, _, _ = shape(BVP_SEMI, tagline, size, None, track)
+    gap = 44
+    top = (H - (lh * k + gap + size * 0.74)) / 2
+    lockup = paint(*parts, C['roast'], C['orange'])
+    tag, _ = text_d(BVP_SEMI, tagline, size, (W - tw) / 2, top + lh * k + gap + size * 0.74, None, track)
+    content = svg(W, H,
+                  f'<rect width="{W}" height="{H}" fill="{C["cream"]}"/>'
+                  f'<g transform="translate({fmt((W - lw * k) / 2)} {fmt(top)}) scale({fmt(k)})">{lockup}</g>'
+                  f'<path fill="{C["roast"]}" d="{tag}"/>',
+                  'Tuki Coffee — rang mộc, pha tận tâm')
+    path = os.path.join(REPO, 'src/app/opengraph-image.png')
+    data = resvg_py.svg_to_bytes(svg_string=content, width=W, skip_system_fonts=True)
+    with open(path, 'wb') as f:
+        f.write(bytes(data))
+    written.append('../../src/app/opengraph-image.png')
+
+
 if __name__ == '__main__':
     symbol_files()
     horizontal()
@@ -410,4 +442,5 @@ if __name__ == '__main__':
         export_png(src, dest, width)
     website(*compact(1))  # tight box: the page layout owns the spacing
     app_icons()
+    og_image()
     print('\n'.join(written))

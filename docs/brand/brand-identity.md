@@ -103,17 +103,18 @@ Bản PNG trong [`logo/png/`](logo/png/) có nền trong suốt (trừ bản đ�
 | # | Điểm chạm | File dùng | Trạng thái |
 |---|-----------|-----------|-----------|
 | 1 | Website: header, footer, favicon, icon iOS | Compact, `icon.svg`, `apple-icon.png` | Đã áp dụng |
-| 2 | Avatar Facebook, Instagram, TikTok, Google Maps | `png/tuki-avatar-1080.png` | File sẵn sàng, chờ tải lên |
-| 3 | Tem ly, ly giấy | `tuki-seal.svg` hoặc `tuki-symbol.svg` | File sẵn sàng, cần in thử |
-| 4 | Bảng hiệu trước quán | `tuki-lockup-horizontal-reverse.svg` | File sẵn sàng, cần đo kích thước bảng |
-| 5 | Menu giấy, thẻ QR tại bàn | `tuki-lockup-horizontal.svg` | Chưa thiết kế |
-| 6 | Túi hạt, túi giấy mang đi | `tuki-lockup-stacked.svg` | Chưa thiết kế |
+| 2 | Ảnh xem trước khi chia sẻ link website (Facebook, Zalo) | Stacked, `src/app/opengraph-image.png` | Đã áp dụng |
+| 3 | Avatar Facebook, Instagram, TikTok, Google Maps | `png/tuki-avatar-1080.png` | File sẵn sàng, chờ tải lên |
+| 4 | Tem ly, ly giấy | `tuki-seal.svg` hoặc `tuki-symbol.svg` | File sẵn sàng, cần in thử |
+| 5 | Bảng hiệu trước quán | `tuki-lockup-horizontal-reverse.svg` | File sẵn sàng, cần đo kích thước bảng |
+| 6 | Menu giấy, thẻ QR tại bàn | `tuki-lockup-horizontal.svg` | Chưa thiết kế |
+| 7 | Túi hạt, túi giấy mang đi | `tuki-lockup-stacked.svg` | Chưa thiết kế |
 
 Trước khi in số lượng lớn: in thử con dấu 25mm và logo 30mm, kiểm tra giọt cà phê và khe giữa nắp phin với đĩa phin còn rõ.
 
 ## 6. Dựng lại file logo
 
-Mọi file trong `logo/`, cùng `src/components/logo-paths.ts`, `src/app/icon.svg` và `src/app/apple-icon.png`, đều sinh từ `tools/build-logos.py`. Khi cần chỉnh logo, sửa script rồi chạy lại, không sửa tay các file sinh ra:
+Mọi file trong `logo/`, cùng `src/components/logo-paths.ts`, `src/app/icon.svg`, `src/app/apple-icon.png` và `src/app/opengraph-image.png`, đều sinh từ `tools/build-logos.py`. Khi cần chỉnh logo, sửa script rồi chạy lại, không sửa tay các file sinh ra:
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install fonttools uharfbuzz resvg-py
