@@ -29,3 +29,10 @@ thật trước khi public. Section "Khách nói gì" chỉ hiện khi `site.rev
 `src/styles/tokens.css` và `src/styles/tailwind-theme.css` là bản sao từ
 `docs/design-system/tokens/`. Khi đổi token, sửa ở `docs/design-system/tokens/`
 rồi chép lại.
+
+## Logo
+
+Logo và quy tắc nhận diện nằm ở [`docs/brand/`](docs/brand/brand-identity.md).
+`src/components/logo-paths.ts`, `src/app/icon.svg` và `src/app/apple-icon.png`
+được sinh bởi `docs/brand/tools/build-logos.py`; muốn đổi logo thì sửa script
+rồi chạy lại, không sửa tay các file này.
