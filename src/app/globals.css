@@ -1,0 +1,270 @@
+@import "tailwindcss";
+@import "../styles/tokens.css";
+@import "../styles/tailwind-theme.css";
+
+/*
+ * Site-wide styles that utilities can't express cleanly: base typography,
+ * grain, and the motion patterns from docs/design-system/MASTER.md §8.
+ * Every value reads a token from tokens.css.
+ */
+
+:root {
+  --header-height: 4rem;
+  /* Hero steam: three puffs of 3 × orientation-far ≈ 4s in total, under the 5s limit of WCAG 2.2.2. */
+  --hero-steam-cycle: calc(var(--motion-duration-orientation-far) * 3);
+  --hero-steam-count: 3;
+}
+
+@media (min-width: 64rem) {
+  :root { --header-height: 4.5rem; }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--header-height) + var(--space-4));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: var(--leading-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Static paper grain; never animated. */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-overlay);
+    pointer-events: none;
+    opacity: var(--grain-opacity);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    font-variation-settings: var(--display-variation);
+    letter-spacing: var(--tracking-display);
+    line-height: var(--leading-tight);
+    font-weight: 600;
+    text-wrap: balance;
+  }
+
+  :where(h1, h2) em {
+    font-style: italic;
+    color: var(--color-primary);
+  }
+
+  p { text-wrap: pretty; }
+
+  a, button, [role="tab"] { cursor: pointer; }
+
+  /* Lucide icons: stroke 1.75 per the design system. */
+  .lucide {
+    flex: none;
+    stroke-width: 1.75;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-ring);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background-color: var(--color-highlight);
+    color: var(--color-on-highlight);
+  }
+}
+
+@utility container-page {
+  width: min(100% - 2 * var(--gutter), var(--container));
+  margin-inline: auto;
+}
+
+@utility eyebrow {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  line-height: var(--leading-snug);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-eyebrow);
+  color: var(--color-primary);
+}
+
+/* The one espresso block per page. In dark mode it turns latte, so accents fall back to the block's own text colour. */
+@utility on-inverse {
+  background-color: var(--color-surface-inverse);
+  color: var(--color-text-inverse);
+
+  & :where(h1, h2) em,
+  & .eyebrow { color: var(--color-highlight); }
+
+  @variant dark {
+    & :where(h1, h2) em,
+    & .eyebrow { color: var(--color-text-inverse); }
+  }
+}
+
+/* Temporary image frame until real photos arrive: diagonal hatching. */
+@utility placeholder-hatch {
+  background-color: var(--color-surface-alt);
+  background-image: repeating-linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--color-border-strong) 40%, transparent) 0 2px,
+    transparent 2px var(--space-3)
+  );
+}
+
+/* ---------- Scroll reveal (Orientation): first entry only, never re-hidden ---------- */
+[data-reveal] {
+  transition-property: opacity, translate;
+  transition-duration: var(--motion-duration-orientation-mid);
+  transition-timing-function: var(--motion-easing-enter);
+  /* Cap at 8 steps so a stagger never exceeds --motion-stagger-budget. */
+  transition-delay: calc(min(var(--i, 0), 8) * var(--motion-stagger-step));
+}
+
+/* `reveal-ready` is set by RevealObserver after hydration, so content stays visible if JS fails. */
+.reveal-ready [data-reveal]:not(.is-in) {
+  opacity: 0;
+  translate: 0 var(--motion-translate);
+}
+
+/* ---------- Hero: the page's single brand moment ---------- */
+@keyframes hero-rise {
+  from { opacity: 0; translate: 0 var(--motion-translate); }
+}
+
+@keyframes hero-grow {
+  from { opacity: 0; scale: 0.96; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+}
+
+@keyframes steam {
+  0% { opacity: 0; translate: 0 var(--space-3); }
+  40% { opacity: 0.55; }
+  100% { opacity: 0; translate: 0 calc(var(--space-6) * -1); }
+}
+
+.js .hero-rise,
+.js .hero-grow {
+  animation: hero-rise var(--motion-duration-orientation-far) var(--motion-easing-enter) both;
+  animation-delay: calc(min(var(--i, 0), 8) * var(--motion-stagger-step));
+}
+
+.js .hero-grow { animation-name: hero-grow; }
+
+.hero-steam path { opacity: 0; }
+
+.js .hero-steam path {
+  animation: steam var(--hero-steam-cycle) var(--motion-easing-enter) var(--hero-steam-count) both;
+  animation-delay: calc(var(--motion-duration-orientation-far) + var(--j, 0) * 3 * var(--motion-stagger-step));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .hero-grow { animation-name: fade-in; }
+  .js .hero-steam path { animation: none; }
+}
+
+/* ---------- Header ---------- */
+/* Header CTA appears only once the hero CTA has scrolled away: one primary CTA on screen at a time. */
+.header-cta {
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--motion-duration-orientation-near) var(--motion-easing-enter),
+    visibility 0s linear var(--motion-duration-orientation-near);
+}
+
+[data-show-cta="true"] .header-cta {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+/* ---------- Mobile drawer: enters far/enter, leaves near/exit ---------- */
+.drawer {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-drawer);
+  visibility: hidden;
+  transition: visibility 0s linear var(--motion-duration-orientation-near);
+}
+
+.drawer[data-open="true"] {
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.drawer-scrim {
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-scrim);
+  opacity: 0;
+  transition: opacity var(--motion-duration-orientation-near) var(--motion-easing-exit);
+}
+
+.drawer[data-open="true"] .drawer-scrim {
+  opacity: 1;
+  transition: opacity var(--motion-duration-orientation-far) var(--motion-easing-enter);
+}
+
+.drawer-panel {
+  position: absolute;
+  inset-block: 0;
+  right: 0;
+  width: min(100% - var(--space-12), 24rem);
+  translate: 100% 0;
+  transition: translate var(--motion-duration-orientation-near) var(--motion-easing-exit);
+}
+
+.drawer[data-open="true"] .drawer-panel {
+  translate: 0 0;
+  transition: translate var(--motion-duration-orientation-far) var(--motion-easing-enter);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drawer-panel,
+  .drawer[data-open="true"] .drawer-panel {
+    translate: none;
+    transition-property: opacity;
+  }
+
+  .drawer-panel { opacity: 0; }
+  .drawer[data-open="true"] .drawer-panel { opacity: 1; }
+}
+
+/* ---------- Menu tabs: indicator slides by clip-path, list cross-fades ---------- */
+.tabs-indicator {
+  position: absolute;
+  inset: var(--space-1);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-primary);
+  clip-path: inset(0 var(--clip-right, 100%) 0 var(--clip-left, 0) round var(--radius-pill));
+  transition: clip-path var(--motion-duration-orientation-near) var(--motion-easing-enter);
+}
+
+/* Before the indicator is measured (or without JS), the selected tab paints its own fill. */
+[role="tablist"]:not([data-ready]) [aria-selected="true"] {
+  background-color: var(--color-primary);
+}
+
+.tab-panels {
+  transition: opacity var(--motion-duration-orientation-near) var(--motion-easing-enter);
+}
+
+.tab-panels[data-fading="true"] {
+  opacity: 0;
+  transition-timing-function: var(--motion-easing-exit);
+}
