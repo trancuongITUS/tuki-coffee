@@ -37,13 +37,13 @@ Lý do không dùng nguyên "Vibrant & Block-based": phong cách đó nhắm t�
 
 **Không làm:** glassmorphism, gradient neon, 3D/WebGL nặng, emoji làm icon, ảnh stock mờ nhạt, ẩn giờ mở cửa trong footer.
 
-### Logo tạm thời
+### Logo
 
-Tuki chưa có logo; logo chính thức sẽ được thiết kế sau, dựa trên design system này. Trong lúc chờ:
+Đã chốt hướng **"Phin chữ T"** (26/09/2026, chốt tạm thời): biểu tượng phin đặt trên ly tạo thành chữ T, cạnh chữ "tuki" có giọt cà phê thay dấu chấm chữ i. Quy tắc dùng, file logo và công cụ dựng lại nằm ở [`../brand/brand-identity.md`](../brand/brand-identity.md).
 
-- Dùng wordmark chữ **"Tuki Coffee"** bằng Fraunces 700, `font-variation-settings: var(--display-variation)`, màu `--color-primary`.
-- Đặt wordmark trong một component `Logo` duy nhất để thay logo thật ở một chỗ.
-- Brief cho logo sau này: dùng palette ở mục 3 (rang đậm + cam Tuki hoặc caramel), chạy được ở một màu trên cả nền kem lẫn nền espresso, đọc rõ ở 32px (favicon, header mobile).
+- Website dùng **bản compact** (biểu tượng + "tuki", không có dòng COFFEE) qua component `Logo` duy nhất; path lấy từ `src/components/logo-paths.ts` (file sinh tự động, không sửa tay).
+- Màu logo đọc token `--color-logo` (chữ và biểu tượng) và `--color-logo-accent` (giọt cà phê): rang đậm + cam Tuki ở chế độ sáng, kem + caramel ở chế độ tối.
+- Favicon `src/app/icon.svg` và icon iOS `src/app/apple-icon.png` cũng do công cụ trên sinh ra.
 
 ## 3. Màu sắc
 
@@ -63,6 +63,8 @@ Mọi cặp chữ/nền dưới đây đã đo theo công thức WCAG.
 | `--color-accent` | `#C2410C` | **CTA chính** (cam Tuki) | chữ trắng 5.2:1 |
 | `--color-highlight` | `#F2B544` | Nền nhãn "Signature", gạch chân trang trí | — |
 | `--color-on-highlight` | `#2B1A12` | Chữ trên nền caramel | 9.1:1 |
+| `--color-logo` | = `--color-primary` | Chữ và biểu tượng của logo | 8.4:1 |
+| `--color-logo-accent` | = `--color-accent` | Giọt cà phê trong logo | đồ họa, 4.8:1 |
 | `--color-fresh` | `#4F6B3A` | Nhãn "Mới", "Thuần chay" | chữ trắng 6.0:1 |
 | `--color-border` | `#E6D6C1` | Đường kẻ trang trí | chỉ trang trí |
 | `--color-border-strong` | `#9A7F68` | Viền input, control | 3.5:1 (đạt 1.4.11) |
@@ -80,6 +82,8 @@ Tự bật theo `prefers-color-scheme`, có thể ép bằng `data-theme="dark|l
 | `--color-primary` | `#E8B98A` | 10.4:1 |
 | `--color-accent` | `#F07A45` | chữ espresso 6.7:1 |
 | `--color-fresh` | `#9CBB84` | 8.7:1 |
+| `--color-logo` | = `--color-text` | 16.1:1 |
+| `--color-logo-accent` | = `--color-highlight` | đồ họa, 10.2:1 |
 | `--color-border-strong` | `#7D644F` | 3.4:1 |
 
 Quy tắc dùng màu:
@@ -209,7 +213,7 @@ Hiện chưa có code nên các cổng dưới đây là **điều kiện bắt 
 | Eyebrow + tiêu đề section | Eyebrow cam hoặc primary, tiêu đề Fraunces, một từ khóa in nghiêng italic để tạo nhịp. |
 | Khối giờ mở cửa | Icon đồng hồ + chữ "Đang mở cửa · đóng lúc 22:00" + chấm màu fresh; khi đóng: "Đã đóng · mở lúc 7:00" + chấm danger. Giờ tính theo `Asia/Ho_Chi_Minh`. |
 | Input (form liên hệ/đặt bàn) | Label luôn hiện phía trên, viền `--color-border-strong`, lỗi hiển thị ngay dưới ô, `aria-describedby`. |
-| Header | Sticky, cao 64px (mobile) / 72px (desktop); logo (wordmark) trái, nav giữa, CTA "Xem menu" phải (chỉ hiện khi CTA hero đã khuất); mobile: logo + CTA + nút mở drawer. |
+| Header | Sticky, cao 64px (mobile) / 72px (desktop); logo (bản compact) trái, nav giữa, CTA "Xem menu" phải (chỉ hiện khi CTA hero đã khuất); mobile: logo + CTA + nút mở drawer. |
 | Nút đổi sáng/tối | Nút icon (mặt trăng ở chế độ sáng, mặt trời ở chế độ tối), `aria-label` "Đổi giao diện sáng/tối". Đặt ở header từ `sm`; dưới `sm` nằm trong drawer vì header không đủ chỗ. Mặc định theo hệ điều hành; lựa chọn lưu trong `localStorage` và gắn `data-theme` trên `<html>` trước khi vẽ trang (không nháy màu). Chọn trùng với hệ điều hành thì bỏ lựa chọn đã lưu và lại theo hệ điều hành. |
 
 ## 10. Cấu trúc trang chủ đề xuất
@@ -297,6 +301,6 @@ Quy tắc motion với Tailwind: dùng `transition-colors`, `transition-opacity`
 | Câu hỏi | Quyết định | Ảnh hưởng |
 |---------|-----------|-----------|
 | CTA chính | "Xem menu" | Hero + sticky header; không có giỏ hàng nên bỏ Causality/Attention khỏi phạm vi hiện tại. |
-| Logo | Chưa có, thiết kế sau dựa trên design system | Dùng wordmark Fraunces tạm thời trong component `Logo`. |
+| Logo | Hướng "Phin chữ T" (chốt tạm thời) | Component `Logo` dùng bản compact; favicon và apple-icon theo biểu tượng phin. Xem `docs/brand/`. |
 | Ngôn ngữ | Chỉ tiếng Việt (tạm thời) | `lang="vi"`, font subset `latin` + `vietnamese`; chưa cần i18n. |
 | Stack | Next.js + Tailwind | Tailwind v4 qua `tailwind-theme.css`; font qua `next/font`. |
