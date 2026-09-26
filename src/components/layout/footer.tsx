@@ -11,7 +11,7 @@ export function Footer() {
     <footer className="border-t border-border pt-16 pb-8">
       <div className="container-page grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr_0.8fr]">
         <div>
-          <Logo />
+          <Logo className="h-12" />
           <p className="mt-2 text-sm text-text-muted">{site.tagline}</p>
         </div>
 

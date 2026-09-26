@@ -29,6 +29,8 @@
   --color-on-accent: #FFFFFF;
   --color-highlight: #F2B544;     /* caramel — fills only, never text on cream */
   --color-on-highlight: #2B1A12;  /* 9.1:1 */
+  --color-logo: var(--color-primary);        /* logo ink: rang đậm on light grounds */
+  --color-logo-accent: var(--color-accent);  /* the coffee drop: cam Tuki */
   --color-fresh: #4F6B3A;         /* matcha — tags "Mới", "Thuần chay" */
   --color-on-fresh: #FFFFFF;
   --color-border: #E6D6C1;        /* decorative dividers only */
@@ -140,6 +142,8 @@
     --color-on-accent: #1A110C;
     --color-highlight: #F2B544;
     --color-on-highlight: #1A110C;
+    --color-logo: var(--color-text);        /* cream logo, caramel drop on dark grounds */
+    --color-logo-accent: var(--color-highlight);
     --color-fresh: #9CBB84;
     --color-on-fresh: #1A110C;
     --color-border: #4A3424;
@@ -169,6 +173,8 @@
   --color-on-accent: #1A110C;
   --color-highlight: #F2B544;
   --color-on-highlight: #1A110C;
+  --color-logo: var(--color-text);        /* cream logo, caramel drop on dark grounds */
+  --color-logo-accent: var(--color-highlight);
   --color-fresh: #9CBB84;
   --color-on-fresh: #1A110C;
   --color-border: #4A3424;
