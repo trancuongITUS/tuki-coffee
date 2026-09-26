@@ -210,6 +210,7 @@ Hiện chưa có code nên các cổng dưới đây là **điều kiện bắt 
 | Khối giờ mở cửa | Icon đồng hồ + chữ "Đang mở cửa · đóng lúc 22:00" + chấm màu fresh; khi đóng: "Đã đóng · mở lúc 7:00" + chấm danger. Giờ tính theo `Asia/Ho_Chi_Minh`. |
 | Input (form liên hệ/đặt bàn) | Label luôn hiện phía trên, viền `--color-border-strong`, lỗi hiển thị ngay dưới ô, `aria-describedby`. |
 | Header | Sticky, cao 64px (mobile) / 72px (desktop); logo (wordmark) trái, nav giữa, CTA "Xem menu" phải (chỉ hiện khi CTA hero đã khuất); mobile: logo + CTA + nút mở drawer. |
+| Nút đổi sáng/tối | Nút icon (mặt trăng ở chế độ sáng, mặt trời ở chế độ tối), `aria-label` "Đổi giao diện sáng/tối". Đặt ở header từ `sm`; dưới `sm` nằm trong drawer vì header không đủ chỗ. Mặc định theo hệ điều hành; lựa chọn lưu trong `localStorage` và gắn `data-theme` trên `<html>` trước khi vẽ trang (không nháy màu). Chọn trùng với hệ điều hành thì bỏ lựa chọn đã lưu và lại theo hệ điều hành. |
 
 ## 10. Cấu trúc trang chủ đề xuất
 

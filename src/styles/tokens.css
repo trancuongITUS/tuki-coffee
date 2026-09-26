@@ -1,0 +1,202 @@
+/*
+ * Tuki Coffee design tokens.
+ * Source of truth for colour, type, spacing, radius, elevation and motion.
+ * Motion values are generated from motion.tokens.json (web-motion-design,
+ * genre marketing-landing); regenerate instead of editing them by hand.
+ * Components must read these variables; literal hex or ms values in a
+ * component are defects.
+ *
+ * Fonts are loaded by next/font (self-hosted, subsets latin + vietnamese),
+ * which exposes --font-fraunces and --font-be-vietnam-pro. The family names
+ * after them are the fallback for pages that load Google Fonts directly.
+ */
+
+:root {
+  color-scheme: light;
+
+  /* ---------- Colour: light ("quán sáng") ---------- */
+  --color-bg: #FBF6EE;            /* kem sữa */
+  --color-surface: #FFFFFF;
+  --color-surface-alt: #F3E8D8;   /* latte */
+  --color-surface-inverse: #2B1A12; /* espresso block */
+  --color-text: #2B1A12;          /* 15.5:1 on bg */
+  --color-text-muted: #6B5646;    /* 6.4:1 on bg */
+  --color-text-inverse: #FBF6EE;
+  --color-primary: #6F3B1F;       /* rang đậm, 8.4:1 on bg */
+  --color-on-primary: #FFF8EF;
+  --color-accent: #C2410C;        /* cam Tuki — CTA, 5.2:1 with white */
+  --color-accent-hover: #9A3412;
+  --color-on-accent: #FFFFFF;
+  --color-highlight: #F2B544;     /* caramel — fills only, never text on cream */
+  --color-on-highlight: #2B1A12;  /* 9.1:1 */
+  --color-fresh: #4F6B3A;         /* matcha — tags "Mới", "Thuần chay" */
+  --color-on-fresh: #FFFFFF;
+  --color-border: #E6D6C1;        /* decorative dividers only */
+  --color-border-strong: #9A7F68; /* inputs & controls, 3.5:1 on bg */
+  --color-ring: #C2410C;
+  --color-danger: #B91C1C;
+  --color-scrim: rgb(26 17 12 / 0.55);
+
+  /* ---------- Typography ---------- */
+  --font-display: var(--font-fraunces, 'Fraunces'), 'Georgia', serif;
+  --font-body: var(--font-be-vietnam-pro, 'Be Vietnam Pro'), system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --text-xs: 0.8125rem;                                   /* 13px, captions only */
+  --text-sm: 0.875rem;                                    /* 14px */
+  --text-base: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);    /* 16–18px body */
+  --text-lg: clamp(1.125rem, 1.05rem + 0.4vw, 1.375rem);
+  --text-xl: clamp(1.5rem, 1.25rem + 1vw, 2rem);
+  --text-2xl: clamp(2rem, 1.5rem + 2vw, 3rem);
+  --text-3xl: clamp(2.5rem, 1.6rem + 3.6vw, 4.5rem);
+  --text-display: clamp(3rem, 1.5rem + 6vw, 7rem);
+
+  /* Vietnamese stacks diacritics above and below (Ấ, Ộ, ỵ): never go under 1.15. */
+  --leading-tight: 1.15;
+  --leading-snug: 1.3;
+  --leading-body: 1.65;
+  --tracking-display: -0.02em;
+  --tracking-eyebrow: 0.12em;
+  --measure: 65ch;
+
+  /* Fraunces soft axes give the "hand-roasted" warmth on headings. */
+  --display-variation: 'SOFT' 100, 'WONK' 1;
+
+  /* ---------- Spacing (4px rhythm) ---------- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+  --space-section: clamp(4rem, 2rem + 8vw, 8rem);
+  --gutter: clamp(1rem, 0.5rem + 2vw, 2rem);
+  --container: 75rem; /* 1200px */
+  --tap-target: 2.75rem; /* 44px */
+
+  /* ---------- Shape ---------- */
+  --radius-sm: 0.5rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-xl: 2.5rem;
+  --radius-pill: 999px;
+  --radius-blob: 62% 38% 46% 54% / 55% 45% 55% 45%;
+
+  /* ---------- Elevation (warm-tinted, never grey) ---------- */
+  --shadow-sm: 0 1px 2px rgb(43 26 18 / 0.08), 0 2px 6px rgb(43 26 18 / 0.06);
+  --shadow-md: 0 4px 12px rgb(43 26 18 / 0.10), 0 12px 32px rgb(43 26 18 / 0.08);
+  --shadow-lg: 0 12px 24px rgb(43 26 18 / 0.12), 0 32px 64px rgb(43 26 18 / 0.14);
+  --grain-opacity: 0.06;
+
+  /* ---------- Layering ---------- */
+  --z-raised: 10;
+  --z-sticky: 100;
+  --z-drawer: 200;
+  --z-overlay: 300;
+  --z-toast: 400;
+
+  /* ---------- Motion (generated: marketing-landing = neutral / expressive / organic) ---------- */
+  --motion-duration-attention-far: 400ms;
+  --motion-duration-attention-mid: 300ms;
+  --motion-duration-attention-near: 250ms;
+  --motion-duration-causality-far: 400ms;
+  --motion-duration-causality-mid: 300ms;
+  --motion-duration-causality-near: 250ms;
+  --motion-duration-feedback: 100ms;
+  --motion-duration-orientation-far: 450ms;
+  --motion-duration-orientation-mid: 400ms;
+  --motion-duration-orientation-near: 300ms;
+  --motion-continuity-delay: 200ms;
+  --motion-easing-enter: cubic-bezier(0.05, 0.7, 0.1, 1.0);
+  --motion-easing-exit: cubic-bezier(0.3, 0.0, 0.8, 0.15);
+  --motion-translate: 32px;
+  --motion-scale-max: 1.05;
+
+  /* Derived from the amplitude dial: stagger step = min(60ms, 500ms / items). */
+  --motion-stagger-step: 60ms;
+  --motion-stagger-budget: 500ms;
+  --motion-hover-lift: -4px;
+  --motion-press-scale: 0.97;
+}
+
+/* ---------- Colour: dark ("quán đêm") ---------- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --color-bg: #1A110C;
+    --color-surface: #26190F;
+    --color-surface-alt: #332216;
+    --color-surface-inverse: #F3E8D8;
+    --color-text: #F7EDE0;
+    --color-text-muted: #C9B6A3;
+    --color-text-inverse: #2B1A12;
+    --color-primary: #E8B98A;
+    --color-on-primary: #1A110C;
+    --color-accent: #F07A45;
+    --color-accent-hover: #F59163;
+    --color-on-accent: #1A110C;
+    --color-highlight: #F2B544;
+    --color-on-highlight: #1A110C;
+    --color-fresh: #9CBB84;
+    --color-on-fresh: #1A110C;
+    --color-border: #4A3424;
+    --color-border-strong: #7D644F;
+    --color-ring: #F07A45;
+    --color-danger: #F87171;
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.30);
+    --shadow-md: 0 4px 12px rgb(0 0 0 / 0.35), 0 12px 32px rgb(0 0 0 / 0.25);
+    --shadow-lg: 0 12px 24px rgb(0 0 0 / 0.40), 0 32px 64px rgb(0 0 0 / 0.35);
+    --grain-opacity: 0.04;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-bg: #1A110C;
+  --color-surface: #26190F;
+  --color-surface-alt: #332216;
+  --color-surface-inverse: #F3E8D8;
+  --color-text: #F7EDE0;
+  --color-text-muted: #C9B6A3;
+  --color-text-inverse: #2B1A12;
+  --color-primary: #E8B98A;
+  --color-on-primary: #1A110C;
+  --color-accent: #F07A45;
+  --color-accent-hover: #F59163;
+  --color-on-accent: #1A110C;
+  --color-highlight: #F2B544;
+  --color-on-highlight: #1A110C;
+  --color-fresh: #9CBB84;
+  --color-on-fresh: #1A110C;
+  --color-border: #4A3424;
+  --color-border-strong: #7D644F;
+  --color-ring: #F07A45;
+  --color-danger: #F87171;
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.30);
+  --shadow-md: 0 4px 12px rgb(0 0 0 / 0.35), 0 12px 32px rgb(0 0 0 / 0.25);
+  --shadow-lg: 0 12px 24px rgb(0 0 0 / 0.40), 0 32px 64px rgb(0 0 0 / 0.35);
+  --grain-opacity: 0.04;
+}
+
+/* ---------- Reduced motion (generated): keep opacity + stagger, drop travel ---------- */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-duration-attention-far: 200ms;
+    --motion-duration-attention-mid: 200ms;
+    --motion-duration-attention-near: 200ms;
+    --motion-duration-causality-far: 200ms;
+    --motion-duration-causality-mid: 200ms;
+    --motion-duration-causality-near: 200ms;
+    --motion-duration-feedback: 100ms;
+    --motion-duration-orientation-far: 200ms;
+    --motion-duration-orientation-mid: 200ms;
+    --motion-duration-orientation-near: 200ms;
+    --motion-translate: 0px;
+    --motion-scale-max: 1;
+    --motion-hover-lift: 0px;
+    --motion-press-scale: 1;
+  }
+}

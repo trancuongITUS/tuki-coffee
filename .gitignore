@@ -3,6 +3,20 @@
 
 # Dependencies
 node_modules/
+/.pnp
+.pnp.*
+
+# Next.js
+/.next/
+/out/
+/build
+next-env.d.ts
+*.tsbuildinfo
+.vercel
+
+# Debug
+npm-debug.log*
+*.pem
 
 # Environment files
 .env
