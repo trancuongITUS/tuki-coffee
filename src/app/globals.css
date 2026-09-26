@@ -177,6 +177,49 @@
   .js .hero-steam path { animation: none; }
 }
 
+/* ---------- 404: the page's brand moment reuses the hero entrance, then one drip ---------- */
+/* A drop falls into the cup and ripples spread, three times ≈ 4s, under the 5s limit of WCAG 2.2.2. */
+@keyframes drip {
+  0% { opacity: 0; translate: 0 -260%; }
+  15% { opacity: 1; }
+  55% { opacity: 1; translate: 0 0; }
+  65%, 100% { opacity: 0; translate: 0 0; }
+}
+
+@keyframes ripple {
+  0%, 55% { opacity: 0; scale: 0.3; }
+  62% { opacity: 0.8; }
+  100% { opacity: 0; scale: 1.1; }
+}
+
+.not-found-cup {
+  --drip-cycle: calc(var(--motion-duration-orientation-far) * 3);
+  --drip-count: 3;
+  --drip-delay: calc(var(--motion-duration-orientation-far) + 2 * var(--motion-stagger-step));
+}
+
+.not-found-drop,
+.not-found-ripple {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.js .not-found-drop {
+  /* Accelerating curve: the drop falls under gravity. */
+  animation: drip var(--drip-cycle) var(--motion-easing-exit) var(--drip-count) var(--drip-delay) both;
+}
+
+.js .not-found-ripple {
+  animation: ripple var(--drip-cycle) var(--motion-easing-enter) var(--drip-count) both;
+  animation-delay: calc(var(--drip-delay) + var(--j, 0) * var(--motion-stagger-step));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .not-found-drop,
+  .js .not-found-ripple { animation: none; }
+}
+
 /* ---------- Header ---------- */
 /* Header CTA appears only once the hero CTA has scrolled away: one primary CTA on screen at a time. */
 .header-cta {
