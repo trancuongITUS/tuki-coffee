@@ -18,6 +18,12 @@ Khi build để public, đặt `NEXT_PUBLIC_SITE_URL` là địa chỉ thật c�
 (Facebook, Zalo), `robots.txt` và `sitemap.xml`; thiếu nó, các URL đó trỏ về localhost.
 Trang mới cần được thêm vào danh sách trong `src/app/sitemap.ts`.
 
+## CI
+
+GitHub Actions ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) chạy `npm ci`,
+`npm run lint` và `npm run build` (bước build đã gồm kiểm tra kiểu TypeScript) cho mọi
+pull request và mỗi lần push lên `main`. Chưa có bước deploy tự động.
+
 ## Nội dung
 
 Toàn bộ nội dung quán nằm trong `src/content/`:
