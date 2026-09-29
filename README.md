@@ -5,6 +5,9 @@ Website của Tuki Coffee: Next.js (App Router) + Tailwind CSS v4, dựng theo
 
 ## Chạy local
 
+Cần Node 24 (ghi trong `.nvmrc` và `engines` của `package.json`; CI đọc cùng file
+`.nvmrc`). Dùng nvm thì chạy `nvm use` trong thư mục dự án.
+
 ```bash
 npm install
 cp .env.example .env.local
