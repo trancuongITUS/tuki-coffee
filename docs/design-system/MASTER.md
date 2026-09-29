@@ -97,7 +97,7 @@ Quy tắc dùng màu:
 | Vai trò | Font | Lý do |
 |---------|------|-------|
 | Display / tiêu đề | **Fraunces** (variable: `opsz`, `wght`, `SOFT`, `WONK`, có italic) | Serif mềm, có "cá tính" thủ công; trục `SOFT 100` cho nét bo ấm áp. Hỗ trợ tiếng Việt. |
-| Body / UI | **Be Vietnam Pro** 400–700 | Thiết kế riêng cho tiếng Việt, dấu đặt chuẩn, rất dễ đọc trên mobile. |
+| Body / UI | **Be Vietnam Pro** 400, 500, 600 | Thiết kế riêng cho tiếng Việt, dấu đặt chuẩn, rất dễ đọc trên mobile. |
 
 Website hiện chỉ có tiếng Việt: `<html lang="vi">`, chỉ tải subset `latin` + `vietnamese` (cần cả `latin` cho ký tự không dấu và số).
 
@@ -255,28 +255,12 @@ Khi dựng project, chép `tokens/tokens.css` và `tokens/tailwind-theme.css` v�
 @import "../styles/tailwind-theme.css";
 ```
 
-Font qua `next/font/google` (tự host, không chặn render):
+Font được khai báo trong `src/app/fonts.ts`:
 
-```ts
-// src/app/fonts.ts
-import { Be_Vietnam_Pro, Fraunces } from 'next/font/google'
-
-export const fraunces = Fraunces({
-  subsets: ['latin', 'vietnamese'],
-  axes: ['SOFT', 'WONK', 'opsz'],
-  style: ['normal', 'italic'],
-  variable: '--font-fraunces',
-  display: 'swap',
-})
-
-export const beVietnamPro = Be_Vietnam_Pro({
-  subsets: ['latin', 'vietnamese'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-be-vietnam-pro',
-  display: 'swap',
-})
-// <html lang="vi" className={`${fraunces.variable} ${beVietnamPro.variable}`}>
-```
+- **Fraunces** tự host bằng `next/font/local`. Google Fonts chỉ trả Fraunces với trục `SOFT` và `WONK` ở dạng khoảng đầy đủ, nên mỗi file nặng 100–150KB. Script `docs/design-system/tools/build-fonts.py` cố định sẵn `SOFT 100, WONK 1` (đúng `--display-variation`), chỉ giữ trục `opsz` để trình duyệt tự chỉnh theo cỡ chữ, và gộp subset `latin` + `vietnamese` vào một file khoảng 40KB.
+- Chỉ bản đứng 600 (`--font-display`) được tải sẵn, vì tiêu đề trên màn hình đầu chỉ cần bản này. Bản nghiêng trong `<em>` và độ đậm 400 của menu mobile nằm trong họ font thứ hai (`--font-display-alt`, tiện ích `font-display-alt`), chỉ tải khi trang dùng đến.
+- **Be Vietnam Pro** qua `next/font/google`, chỉ lấy 400, 500, 600 vì trang không dùng 700.
+- Menu mobile khi đóng dùng `display: none` chứ không chỉ `visibility: hidden`, để font của nó không bị tải ngay khi vào trang.
 
 Cách `tailwind-theme.css` hoạt động:
 
