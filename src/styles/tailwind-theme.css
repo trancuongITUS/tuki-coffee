@@ -50,6 +50,7 @@
   --color-current: currentColor;
 
   --font-display: var(--font-display);
+  --font-display-alt: var(--font-display-alt);
   --font-body: var(--font-body);
 
   --text-xs: var(--text-xs);

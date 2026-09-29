@@ -86,7 +86,7 @@ export function MobileDrawer({ open, onClose, returnFocusRef, pathname }: Props)
                   href={item.href}
                   aria-current={pathname === item.href ? 'page' : undefined}
                   onClick={onClose}
-                  className="flex min-h-12 items-center font-display text-2xl tracking-display text-text [font-variation-settings:var(--display-variation)] transition-colors duration-feedback ease-enter hover:text-primary aria-[current=page]:text-primary aria-[current=page]:italic"
+                  className="flex min-h-12 items-center font-display-alt text-2xl tracking-display text-text [font-variation-settings:var(--display-variation)] transition-colors duration-feedback ease-enter hover:text-primary aria-[current=page]:text-primary aria-[current=page]:italic"
                 >
                   {item.label}
                 </Link>

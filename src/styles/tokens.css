@@ -41,6 +41,8 @@
 
   /* ---------- Typography ---------- */
   --font-display: var(--font-fraunces, 'Fraunces'), 'Georgia', serif;
+  /* Italic and weight 400 of the display face; the site loads them on demand. */
+  --font-display-alt: var(--font-fraunces-alt, 'Fraunces'), 'Georgia', serif;
   --font-body: var(--font-be-vietnam-pro, 'Be Vietnam Pro'), system-ui, -apple-system, 'Segoe UI', sans-serif;
 
   --text-xs: 0.8125rem;                                   /* 13px, captions only */
