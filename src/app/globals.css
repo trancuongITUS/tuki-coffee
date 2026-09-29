@@ -59,6 +59,8 @@
     text-wrap: balance;
   }
 
+  :where(h1, h2, h3) em { font-family: var(--font-display-alt); }
+
   :where(h1, h2) em {
     font-style: italic;
     color: var(--color-primary);
@@ -237,17 +239,17 @@
 }
 
 /* ---------- Mobile drawer: enters far/enter, leaves near/exit ---------- */
+/* Closed is display: none (not just hidden) so its Fraunces 400 faces only download once it opens. */
 .drawer {
   position: fixed;
   inset: 0;
   z-index: var(--z-drawer);
-  visibility: hidden;
-  transition: visibility 0s linear var(--motion-duration-orientation-near);
+  display: none;
+  transition: display var(--motion-duration-orientation-near) allow-discrete;
 }
 
 .drawer[data-open="true"] {
-  visibility: visible;
-  transition-delay: 0s;
+  display: block;
 }
 
 .drawer-scrim {
@@ -277,6 +279,12 @@
   transition: translate var(--motion-duration-orientation-far) var(--motion-easing-enter);
 }
 
+/* Entry starts from the closed look, since the drawer was display: none a frame earlier. */
+@starting-style {
+  .drawer[data-open="true"] .drawer-scrim { opacity: 0; }
+  .drawer[data-open="true"] .drawer-panel { translate: 100% 0; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .drawer-panel,
   .drawer[data-open="true"] .drawer-panel {
@@ -286,6 +294,10 @@
 
   .drawer-panel { opacity: 0; }
   .drawer[data-open="true"] .drawer-panel { opacity: 1; }
+
+  @starting-style {
+    .drawer[data-open="true"] .drawer-panel { opacity: 0; }
+  }
 }
 
 /* ---------- Menu tabs: indicator slides by clip-path, list cross-fades ---------- */

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { beVietnamPro, fraunces } from './fonts'
+import { beVietnamPro, fraunces, frauncesAlt } from './fonts'
 import { site } from '@/content/site'
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
-    <html lang="vi" className={`${fraunces.variable} ${beVietnamPro.variable}`} suppressHydrationWarning>
+    <html lang="vi" className={`${fraunces.variable} ${frauncesAlt.variable} ${beVietnamPro.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
