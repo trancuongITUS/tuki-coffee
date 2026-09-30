@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tuki Coffee — Design System Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,400..800,0..100,0..1;1,9..144,400..800,0..100,0..1&display=swap">
+  <link rel="stylesheet" href="tokens/tokens.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    body {
+      margin: 0;
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      line-height: var(--leading-body);
+      -webkit-font-smoothing: antialiased;
+    }
+    body::after {
+      content: "";
+      position: fixed; inset: 0;
+      pointer-events: none;
+      opacity: var(--grain-opacity);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      z-index: var(--z-overlay);
+    }
+    h1, h2, h3 {
+      font-family: var(--font-display);
+      font-variation-settings: var(--display-variation);
+      letter-spacing: var(--tracking-display);
+      line-height: var(--leading-tight);
+      margin: 0;
+      font-weight: 600;
+    }
+    p { margin: 0; max-width: var(--measure); }
+    em { font-style: italic; color: var(--color-accent); }
+    .container { width: min(100% - 2 * var(--gutter), var(--container)); margin-inline: auto; }
+    .section { padding-block: var(--space-section); }
+    .section--alt { background: var(--color-surface-alt); }
+    .section--inverse { background: var(--color-surface-inverse); color: var(--color-text-inverse); border-radius: var(--radius-xl); margin-inline: var(--space-2); }
+    .section--inverse em { color: var(--color-highlight); }
+    .eyebrow {
+      font-size: var(--text-sm); font-weight: 600; text-transform: uppercase;
+      letter-spacing: var(--tracking-eyebrow); color: var(--color-accent); margin-bottom: var(--space-3);
+    }
+    .section--inverse .eyebrow { color: var(--color-highlight); }
+    .section-title { font-size: var(--text-2xl); margin-bottom: var(--space-4); }
+    .lead { font-size: var(--text-lg); color: var(--color-text-muted); }
+    .section--inverse .lead { color: inherit; opacity: 0.85; }
+
+    /* ---------- Header ---------- */
+    .header { position: sticky; top: 0; z-index: var(--z-sticky); }
+    .header::before {
+      content: ""; position: absolute; inset: 0;
+      background: var(--color-bg); box-shadow: var(--shadow-sm);
+      opacity: 0;
+      transition: opacity var(--motion-duration-orientation-near) var(--motion-easing-enter);
+    }
+    .header.is-scrolled::before { opacity: 1; }
+    .header__inner { position: relative; display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); min-height: 4.5rem; }
+    .logo { font-family: var(--font-display); font-variation-settings: var(--display-variation); font-size: var(--text-xl); font-weight: 700; color: var(--color-primary); text-decoration: none; }
+    .header__actions { display: flex; align-items: center; gap: var(--space-2); }
+    /* Sticky CTA: appears only once the hero CTA has left the viewport, so one primary CTA is visible at a time. */
+    .header__cta {
+      opacity: 0; visibility: hidden;
+      transition: opacity var(--motion-duration-orientation-near) var(--motion-easing-enter), visibility 0s linear var(--motion-duration-orientation-near);
+    }
+    .header.show-cta .header__cta { opacity: 1; visibility: visible; transition-delay: 0s; }
+
+    /* ---------- Buttons ---------- */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
+      min-height: 3rem; padding-inline: var(--space-6);
+      border-radius: var(--radius-pill); border: 1.5px solid transparent;
+      font: 600 var(--text-base)/1 var(--font-body); text-decoration: none; cursor: pointer;
+      transition:
+        background-color var(--motion-duration-feedback) var(--motion-easing-enter),
+        color var(--motion-duration-feedback) var(--motion-easing-enter),
+        transform var(--motion-duration-feedback) var(--motion-easing-enter);
+    }
+    .btn:active { transform: scale(var(--motion-press-scale)); }
+    .btn--primary { background: var(--color-accent); color: var(--color-on-accent); }
+    .btn--primary:hover { background: var(--color-accent-hover); }
+    .btn--secondary { border-color: var(--color-primary); color: var(--color-primary); background: transparent; }
+    .btn--secondary:hover { background: var(--color-surface-alt); }
+    .btn--icon { min-width: var(--tap-target); min-height: var(--tap-target); padding: 0; background: transparent; color: var(--color-text); border-color: var(--color-border-strong); }
+    .btn--icon:hover { background: var(--color-surface-alt); }
+    :focus-visible { outline: 3px solid var(--color-ring); outline-offset: 3px; }
+    .icon { width: 1.25rem; height: 1.25rem; stroke: currentColor; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+    /* ---------- Hero (the one brand moment) ---------- */
+    .hero { padding-block: var(--space-12) var(--space-section); }
+    .hero__grid { display: grid; gap: var(--space-12); align-items: center; }
+    @media (min-width: 1024px) { .hero__grid { grid-template-columns: 1.1fr 0.9fr; } }
+    .hero h1 { font-size: var(--text-display); margin-bottom: var(--space-6); }
+    .hero h1 span { display: block; }
+    .hero__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-8); }
+    .status { display: inline-flex; align-items: center; gap: var(--space-2); margin-top: var(--space-6); font-size: var(--text-sm); color: var(--color-text-muted); }
+    .status__dot { width: 0.625rem; height: 0.625rem; border-radius: 50%; background: var(--color-fresh); }
+    .status strong { color: var(--color-text); }
+    .hero__art {
+      position: relative; aspect-ratio: 1; max-width: 32rem; width: 100%; margin-inline: auto;
+      background: var(--color-highlight); border-radius: var(--radius-blob);
+      display: grid; place-items: center;
+    }
+    .cup { width: 62%; height: auto; color: var(--color-primary); }
+    .steam path { stroke: var(--color-surface-inverse); stroke-width: 5; fill: none; stroke-linecap: round; opacity: 0; }
+
+    .js .hero h1 span, .js .hero [data-hero] {
+      opacity: 0; transform: translateY(var(--motion-translate));
+      transition:
+        opacity var(--motion-duration-orientation-far) var(--motion-easing-enter),
+        transform var(--motion-duration-orientation-far) var(--motion-easing-enter);
+      transition-delay: calc(var(--i, 0) * var(--motion-stagger-step));
+    }
+    .js .hero__art { opacity: 0; transform: scale(0.96); transition: opacity var(--motion-duration-orientation-far) var(--motion-easing-enter), transform var(--motion-duration-orientation-far) var(--motion-easing-enter); transition-delay: calc(3 * var(--motion-stagger-step)); }
+    .hero.is-in h1 span, .hero.is-in [data-hero], .hero.is-in .hero__art { opacity: 1; transform: none; }
+    .hero.is-in .steam path { animation: steam 1.5s var(--motion-easing-enter) 3; animation-delay: calc(var(--d) + 400ms); }
+    @keyframes steam {
+      0% { opacity: 0; transform: translateY(12px); }
+      40% { opacity: 0.55; }
+      100% { opacity: 0; transform: translateY(-24px); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .js .hero__art { transform: none; }
+      .hero.is-in .steam path { animation: none; }
+    }
+
+    /* ---------- Swatches ---------- */
+    .swatches { display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); margin-top: var(--space-8); }
+    .swatch { border-radius: var(--radius-md); overflow: hidden; background: var(--color-surface); box-shadow: var(--shadow-sm); }
+    .swatch__chip { height: 5.5rem; display: flex; align-items: flex-end; padding: var(--space-3); font-weight: 600; font-size: var(--text-sm); }
+    .swatch__meta { padding: var(--space-3); font-size: var(--text-xs); color: var(--color-text-muted); line-height: 1.5; }
+    .swatch__meta code { color: var(--color-text); font-size: var(--text-xs); }
+
+    /* ---------- Type specimen ---------- */
+    .type-row { display: grid; gap: var(--space-2); padding-block: var(--space-6); border-bottom: 1px solid var(--color-border); }
+    @media (min-width: 768px) { .type-row { grid-template-columns: 10rem 1fr; align-items: baseline; } }
+    .type-row__label { font-size: var(--text-xs); color: var(--color-text-muted); font-family: ui-monospace, monospace; }
+
+    /* ---------- Chips ---------- */
+    .chip { display: inline-flex; align-items: center; gap: var(--space-1); padding: var(--space-1) var(--space-3); border-radius: var(--radius-pill); font-size: var(--text-xs); font-weight: 600; }
+    .chip--signature { background: var(--color-highlight); color: var(--color-on-highlight); }
+    .chip--new { background: var(--color-fresh); color: var(--color-on-fresh); }
+    .row { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; margin-top: var(--space-6); }
+
+    /* ---------- Menu cards ---------- */
+    .tabs { display: inline-flex; position: relative; padding: var(--space-1); border-radius: var(--radius-pill); background: var(--color-surface); box-shadow: var(--shadow-sm); margin-block: var(--space-8); }
+    .tab { position: relative; z-index: 1; min-height: var(--tap-target); padding-inline: var(--space-6); border: 0; background: none; font: 600 var(--text-sm) var(--font-body); color: var(--color-text-muted); cursor: pointer; border-radius: var(--radius-pill); transition: color var(--motion-duration-orientation-near) var(--motion-easing-enter); }
+    .tab[aria-selected="true"] { color: var(--color-on-primary); }
+    .tabs__indicator { position: absolute; top: var(--space-1); left: 0; height: calc(100% - 2 * var(--space-1)); width: 1px; border-radius: var(--radius-pill); background: var(--color-primary); transform-origin: left; transition: transform var(--motion-duration-orientation-near) var(--motion-easing-enter); }
+    .cards { display: grid; gap: var(--space-6); grid-template-columns: 1fr; }
+    @media (min-width: 640px) { .cards { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .cards { grid-template-columns: repeat(3, 1fr); } }
+    .card {
+      position: relative; display: block; padding: var(--space-3); border-radius: var(--radius-md);
+      background: var(--color-surface); color: inherit; text-decoration: none; box-shadow: var(--shadow-sm);
+      transition: transform var(--motion-duration-feedback) var(--motion-easing-enter);
+    }
+    .card::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: var(--shadow-lg); opacity: 0; transition: opacity var(--motion-duration-feedback) var(--motion-easing-enter); pointer-events: none; }
+    .card:hover { transform: translateY(var(--motion-hover-lift)); }
+    .card:hover::after { opacity: 1; }
+    .card__media { aspect-ratio: 4 / 5; border-radius: calc(var(--radius-md) - var(--space-1)); overflow: hidden; display: grid; place-items: center; }
+    .card__media svg { width: 55%; transition: transform var(--motion-duration-feedback) var(--motion-easing-enter); }
+    .card:hover .card__media svg { transform: scale(var(--motion-scale-max)); }
+    .card__body { padding: var(--space-4) var(--space-2) var(--space-2); }
+    .card__top { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-3); }
+    .card h3 { font-size: var(--text-lg); }
+    .price { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--color-primary); white-space: nowrap; }
+    .card p { font-size: var(--text-sm); color: var(--color-text-muted); margin-top: var(--space-1); }
+    .card .chip { position: absolute; top: var(--space-6); left: var(--space-6); }
+    .cards.is-switching { opacity: 0; }
+    .cards { transition: opacity var(--motion-duration-orientation-near) var(--motion-easing-enter); }
+
+    /* ---------- Motion table ---------- */
+    .motion-grid { display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); margin-top: var(--space-8); }
+    .motion-item { padding: var(--space-6); border-radius: var(--radius-md); background: rgb(255 255 255 / 0.06); border: 1px solid rgb(255 255 255 / 0.12); }
+    :root[data-theme="dark"] .section--inverse .motion-item,
+    .section--inverse .motion-item { color: inherit; }
+    .motion-item h3 { font-size: var(--text-lg); margin-bottom: var(--space-2); }
+    .motion-item p { font-size: var(--text-sm); opacity: 0.85; }
+    .motion-item code { font-size: var(--text-xs); color: var(--color-highlight); }
+
+    /* ---------- Scroll reveal (Orientation) ---------- */
+    .js [data-reveal] {
+      opacity: 0; transform: translateY(var(--motion-translate));
+      transition: opacity var(--motion-duration-orientation-mid) var(--motion-easing-enter), transform var(--motion-duration-orientation-mid) var(--motion-easing-enter);
+      transition-delay: calc(var(--i, 0) * var(--motion-stagger-step));
+    }
+    .js [data-reveal].is-in { opacity: 1; transform: none; }
+
+    .footer { padding-block: var(--space-12); text-align: center; font-size: var(--text-sm); color: var(--color-text-muted); }
+    .note { font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-4); }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  </style>
+</head>
+<body>
+  <script>document.documentElement.classList.add('js');</script>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+    <symbol id="i-map" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+    <symbol id="cup" viewBox="0 0 200 200">
+      <path d="M40 80h110v50a45 45 0 0 1-45 45H85a45 45 0 0 1-45-45Z" fill="currentColor"/>
+      <path d="M150 92h10a20 20 0 0 1 0 40h-12" fill="none" stroke="currentColor" stroke-width="10"/>
+      <rect x="28" y="178" width="134" height="10" rx="5" fill="currentColor" opacity=".5"/>
+    </symbol>
+  </svg>
+
+  <header class="header" id="header">
+    <div class="container header__inner">
+      <a class="logo" href="#top">Tuki Coffee</a>
+      <div class="header__actions">
+        <button class="btn btn--icon" id="theme-toggle" type="button" aria-label="Đổi chế độ sáng/tối">
+          <svg class="icon"><use href="#i-moon"/></svg>
+        </button>
+        <a class="btn btn--primary header__cta" href="#menu">Xem menu</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero__grid">
+        <div>
+          <p class="eyebrow" data-hero style="--i:0">Rang mộc · Pha tận tâm</p>
+          <h1><span style="--i:1">Một ly cà phê</span><span style="--i:2">ấm cả <em>ngày dài</em></span></h1>
+          <p class="lead" data-hero style="--i:3">Bản xem trước design system. Nội dung trên trang này là nội dung minh hoạ để thể hiện màu, chữ và chuyển động.</p>
+          <div class="hero__actions" data-hero style="--i:4">
+            <a class="btn btn--primary" href="#menu">Xem menu</a>
+            <a class="btn btn--secondary" href="#motion"><svg class="icon"><use href="#i-map"/></svg>Chỉ đường</a>
+          </div>
+          <p class="status" data-hero style="--i:5"><span class="status__dot" aria-hidden="true"></span><svg class="icon"><use href="#i-clock"/></svg><span><strong>Đang mở cửa</strong> · đóng lúc 22:00</span></p>
+        </div>
+        <div class="hero__art" aria-hidden="true">
+          <svg class="cup" viewBox="0 0 200 200">
+            <g class="steam">
+              <path d="M75 60c-10-14 10-22 0-38" style="--d:0ms"/>
+              <path d="M95 60c-10-14 10-22 0-38" style="--d:180ms"/>
+              <path d="M115 60c-10-14 10-22 0-38" style="--d:360ms"/>
+            </g>
+            <use href="#cup"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--alt" id="colors">
+      <div class="container">
+        <p class="eyebrow" data-reveal>Màu sắc</p>
+        <h2 class="section-title" data-reveal style="--i:1">Kem sữa, rang đậm và <em>cam Tuki</em></h2>
+        <p class="lead" data-reveal style="--i:2">Bấm nút mặt trăng ở header để xem chế độ "quán đêm". Mọi cặp chữ/nền đều đạt WCAG AA.</p>
+        <div class="swatches">
+          <div class="swatch" data-reveal style="--i:0"><div class="swatch__chip" style="background:var(--color-bg);color:var(--color-text);box-shadow:inset 0 0 0 1px var(--color-border)">Nền</div><div class="swatch__meta"><code>--color-bg</code><br>Kem sữa</div></div>
+          <div class="swatch" data-reveal style="--i:1"><div class="swatch__chip" style="background:var(--color-surface-alt);color:var(--color-text)">Latte</div><div class="swatch__meta"><code>--color-surface-alt</code><br>Section xen kẽ</div></div>
+          <div class="swatch" data-reveal style="--i:2"><div class="swatch__chip" style="background:var(--color-surface-inverse);color:var(--color-text-inverse)">Espresso</div><div class="swatch__meta"><code>--color-surface-inverse</code><br>Khối nhấn</div></div>
+          <div class="swatch" data-reveal style="--i:3"><div class="swatch__chip" style="background:var(--color-primary);color:var(--color-on-primary)">Rang đậm</div><div class="swatch__meta"><code>--color-primary</code><br>Link, nút phụ</div></div>
+          <div class="swatch" data-reveal style="--i:4"><div class="swatch__chip" style="background:var(--color-accent);color:var(--color-on-accent)">Cam Tuki</div><div class="swatch__meta"><code>--color-accent</code><br>Chỉ dùng cho CTA</div></div>
+          <div class="swatch" data-reveal style="--i:5"><div class="swatch__chip" style="background:var(--color-highlight);color:var(--color-on-highlight)">Caramel</div><div class="swatch__meta"><code>--color-highlight</code><br>Nhãn, trang trí</div></div>
+          <div class="swatch" data-reveal style="--i:6"><div class="swatch__chip" style="background:var(--color-fresh);color:var(--color-on-fresh)">Matcha</div><div class="swatch__meta"><code>--color-fresh</code><br>Nhãn "Mới"</div></div>
+          <div class="swatch" data-reveal style="--i:7"><div class="swatch__chip" style="background:var(--color-surface);color:var(--color-text-muted);box-shadow:inset 0 0 0 1px var(--color-border)">Chữ phụ</div><div class="swatch__meta"><code>--color-text-muted</code><br>Mô tả</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="type">
+      <div class="container">
+        <p class="eyebrow" data-reveal>Typography</p>
+        <h2 class="section-title" data-reveal style="--i:1">Fraunces &amp; <em>Be Vietnam Pro</em></h2>
+        <div class="type-row" data-reveal><span class="type-row__label">display / Fraunces</span><span style="font:600 var(--text-3xl)/var(--leading-tight) var(--font-display);font-variation-settings:var(--display-variation);letter-spacing:var(--tracking-display)">Ấm áp mỗi sớm mai</span></div>
+        <div class="type-row" data-reveal><span class="type-row__label">2xl / Fraunces</span><span style="font:600 var(--text-2xl)/var(--leading-tight) var(--font-display);font-variation-settings:var(--display-variation)">Cà phê muối đặc trưng</span></div>
+        <div class="type-row" data-reveal><span class="type-row__label">lg / Be Vietnam Pro</span><span style="font-size:var(--text-lg);color:var(--color-text-muted)">Hạt Robusta Lâm Đồng rang vừa, pha phin chậm cho vị đậm, hậu ngọt.</span></div>
+        <div class="type-row" data-reveal><span class="type-row__label">base / Be Vietnam Pro</span><p>Tiếng Việt có dấu chồng trên và dưới như Ấ, Ộ, Ữ, ỵ. Line-height 1.65 cho đoạn văn và tối thiểu 1.15 cho tiêu đề để dấu không bị cắt.</p></div>
+        <div class="row" data-reveal>
+          <span class="chip chip--signature">Signature</span>
+          <span class="chip chip--new">Mới</span>
+          <a class="btn btn--primary" href="#menu">Nút chính</a>
+          <a class="btn btn--secondary" href="#menu">Nút phụ</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--alt" id="menu">
+      <div class="container">
+        <p class="eyebrow" data-reveal>Món đặc trưng · Feedback</p>
+        <h2 class="section-title" data-reveal style="--i:1">Rê chuột lên card để thấy <em>phản hồi</em></h2>
+        <div class="tabs" role="tablist" aria-label="Danh mục menu" data-reveal style="--i:2">
+          <span class="tabs__indicator" aria-hidden="true"></span>
+          <button class="tab" role="tab" aria-selected="true" type="button">Cà phê</button>
+          <button class="tab" role="tab" aria-selected="false" type="button">Trà</button>
+          <button class="tab" role="tab" aria-selected="false" type="button">Bánh</button>
+        </div>
+        <div class="cards" id="cards">
+          <a class="card" href="#menu" data-reveal style="--i:0">
+            <span class="chip chip--signature">Signature</span>
+            <div class="card__media" style="background:var(--color-highlight);color:var(--color-primary)"><svg viewBox="0 0 200 200" aria-hidden="true"><use href="#cup"/></svg></div>
+            <div class="card__body"><div class="card__top"><h3>Cà phê muối</h3><span class="price">45.000đ</span></div><p>Kem muối béo nhẹ trên nền phin đậm.</p></div>
+          </a>
+          <a class="card" href="#menu" data-reveal style="--i:1">
+            <div class="card__media" style="background:var(--color-surface-inverse);color:var(--color-highlight)"><svg viewBox="0 0 200 200" aria-hidden="true"><use href="#cup"/></svg></div>
+            <div class="card__body"><div class="card__top"><h3>Bạc xỉu</h3><span class="price">39.000đ</span></div><p>Sữa nhiều, cà phê ít, ngọt dịu.</p></div>
+          </a>
+          <a class="card" href="#menu" data-reveal style="--i:2">
+            <span class="chip chip--new">Mới</span>
+            <div class="card__media" style="background:var(--color-fresh);color:var(--color-bg)"><svg viewBox="0 0 200 200" aria-hidden="true"><use href="#cup"/></svg></div>
+            <div class="card__body"><div class="card__top"><h3>Matcha latte</h3><span class="price">49.000đ</span></div><p>Matcha Uji đánh tay, sữa tươi.</p></div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--inverse" id="motion">
+      <div class="container">
+        <p class="eyebrow" data-reveal>Motion</p>
+        <h2 class="section-title" data-reveal style="--i:1">Mỗi chuyển động <em>có lý do</em></h2>
+        <p class="lead" data-reveal style="--i:2">Genre marketing-landing: tempo neutral, amplitude expressive, character organic. Bật "Reduce motion" trong hệ điều hành để thấy nhánh giảm chuyển động.</p>
+        <div class="motion-grid">
+          <div class="motion-item" data-reveal style="--i:0"><h3>Feedback</h3><p>Hover, press, focus. Phản hồi tức thì.</p><code>100ms · easing-enter</code></div>
+          <div class="motion-item" data-reveal style="--i:1"><h3>Orientation</h3><p>Drawer, tab, section hiện ra khi cuộn.</p><code>300 / 400 / 450ms</code></div>
+          <div class="motion-item" data-reveal style="--i:2"><h3>Causality · Attention</h3><p>Chưa dùng: web không có giỏ hàng hay thông báo. Token sẵn cho khi cần.</p><code>250 / 300 / 400ms</code></div>
+          <div class="motion-item" data-reveal style="--i:3"><h3>Continuity</h3><p>Skeleton ảnh, chỉ hiện sau 200ms.</p><code>delay 200ms</code></div>
+          <div class="motion-item" data-reveal style="--i:4"><h3>Brand moment</h3><p>Hero: chữ hiện từng dòng, khói bay rồi dừng.</p><code>1 lần / trang</code></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer container">
+    Tuki Coffee design system preview · tokens tại <code>docs/design-system/tokens/</code>
+  </footer>
+
+  <script>
+    (() => {
+      const root = document.documentElement;
+
+      // Theme toggle: explicit choice overrides the OS preference.
+      const toggle = document.getElementById('theme-toggle');
+      const isDark = () => root.dataset.theme ? root.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+      const syncIcon = () => toggle.querySelector('use').setAttribute('href', isDark() ? '#i-sun' : '#i-moon');
+      toggle.addEventListener('click', () => { root.dataset.theme = isDark() ? 'light' : 'dark'; syncIcon(); });
+      syncIcon();
+
+      // Header background: Orientation, opacity only.
+      const header = document.getElementById('header');
+      const onScroll = () => header.classList.toggle('is-scrolled', scrollY > 8);
+      addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+
+      // Header CTA takes over once the hero actions scroll out of view.
+      new IntersectionObserver(([e]) => header.classList.toggle('show-cta', !e.isIntersecting && e.boundingClientRect.top < 0))
+        .observe(document.querySelector('.hero__actions'));
+
+      // Hero brand moment plays once on load.
+      requestAnimationFrame(() => requestAnimationFrame(() => document.querySelector('.hero').classList.add('is-in')));
+
+      // Scroll reveal: once per element, never re-hidden.
+      const io = new IntersectionObserver((entries) => {
+        for (const e of entries) if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+      }, { rootMargin: '0px 0px -10% 0px' });
+      document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
+
+      // Tabs: indicator slides with transform; list cross-fades.
+      const tabs = [...document.querySelectorAll('.tab')];
+      const indicator = document.querySelector('.tabs__indicator');
+      const cards = document.getElementById('cards');
+      const place = (tab) => { indicator.style.transform = `translateX(${tab.offsetLeft}px) scaleX(${tab.offsetWidth})`; };
+      tabs.forEach((tab) => tab.addEventListener('click', () => {
+        tabs.forEach((t) => t.setAttribute('aria-selected', String(t === tab)));
+        place(tab);
+        cards.classList.add('is-switching');
+        setTimeout(() => cards.classList.remove('is-switching'), parseFloat(getComputedStyle(root).getPropertyValue('--motion-duration-orientation-near')));
+      }));
+      document.fonts.ready.then(() => place(tabs.find((t) => t.getAttribute('aria-selected') === 'true')));
+      addEventListener('resize', () => place(tabs.find((t) => t.getAttribute('aria-selected') === 'true')));
+
+    })();
+  </script>
+</body>
+</html>

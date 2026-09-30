@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tuki Coffee — Nhận diện thương hiệu</title>
+  <link rel="icon" href="logo/tuki-favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,400..800,0..100,0..1;1,9..144,400..800,0..100,0..1&display=swap">
+  <link rel="stylesheet" href="../design-system/tokens/tokens.css">
+  <style>
+    /* Brand swatches: logo tiles keep their own backgrounds in both themes, so each logo file sits on the ground it was drawn for. */
+    :root {
+      --brand-cream: #FBF6EE;
+      --brand-latte: #F3E8D8;
+      --brand-espresso: #2B1A12;
+      --brand-caramel: #F2B544;
+      --brand-roast: #6F3B1F;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      line-height: var(--leading-body);
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; height: auto; }
+    h1, h2, h3 {
+      font-family: var(--font-display);
+      font-variation-settings: var(--display-variation);
+      letter-spacing: var(--tracking-display);
+      line-height: var(--leading-tight);
+      margin: 0;
+      font-weight: 600;
+    }
+    p { margin: 0; max-width: var(--measure); }
+    em { font-style: italic; color: var(--color-accent); }
+    .container { width: min(100% - 2 * var(--gutter), var(--container)); margin-inline: auto; }
+    .section { padding-block: var(--space-section); }
+    .section--alt { background: var(--color-surface-alt); }
+    /* The platform block stays espresso in both themes: caramel text only passes contrast on espresso. */
+    .section--inverse { background: var(--brand-espresso); color: var(--brand-cream); border-radius: var(--radius-xl); margin-inline: var(--space-2); box-shadow: inset 0 0 0 1px rgb(251 246 238 / 0.08); }
+    .section--inverse em { color: var(--color-highlight); }
+    .eyebrow {
+      font-size: var(--text-sm); font-weight: 600; text-transform: uppercase;
+      letter-spacing: var(--tracking-eyebrow); color: var(--color-accent); margin: 0 0 var(--space-3);
+    }
+    .section--inverse .eyebrow { color: var(--color-highlight); }
+    .section-title { font-size: var(--text-2xl); margin-bottom: var(--space-4); }
+    .lead { font-size: var(--text-lg); color: var(--color-text-muted); }
+    .section--inverse .lead { color: inherit; opacity: 0.85; }
+    .stack > * + * { margin-top: var(--space-4); }
+
+    /* ---------- Hero ---------- */
+    .hero { padding-block: var(--space-16) var(--space-section); }
+    .hero__grid { display: grid; gap: var(--space-12); align-items: center; }
+    @media (min-width: 1024px) { .hero__grid { grid-template-columns: 1fr 1fr; } }
+    .hero h1 { font-size: var(--text-3xl); margin-bottom: var(--space-6); }
+    .hero__logo { background: var(--brand-cream); border-radius: var(--radius-lg); padding: var(--space-12) var(--space-8); box-shadow: var(--shadow-md); }
+    .chip {
+      display: inline-flex; align-items: center; gap: var(--space-2);
+      padding: var(--space-1) var(--space-3); border-radius: var(--radius-pill);
+      font-size: var(--text-xs); font-weight: 600;
+      background: var(--color-highlight); color: var(--color-on-highlight);
+    }
+    .chip--fresh { background: var(--color-fresh); color: var(--color-on-fresh); }
+    .chip--muted { background: var(--color-surface-alt); color: var(--color-text-muted); }
+
+    /* ---------- Platform ---------- */
+    .essence { font-family: var(--font-display); font-variation-settings: var(--display-variation); font-size: var(--text-3xl); line-height: var(--leading-tight); letter-spacing: var(--tracking-display); max-width: 18ch; margin-block: var(--space-6) var(--space-12); }
+    .traits { display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); }
+    .trait { background: rgb(251 246 238 / 0.06); border: 1px solid rgb(251 246 238 / 0.14); border-radius: var(--radius-md); padding: var(--space-6); }
+    .trait h3 { font-size: var(--text-xl); margin-bottom: var(--space-2); color: var(--color-highlight); }
+    .trait p { opacity: 0.85; }
+    .trait .not { margin-top: var(--space-3); font-size: var(--text-sm); opacity: 0.65; }
+
+    /* ---------- Concepts ---------- */
+    .concepts { display: grid; gap: var(--space-6); margin-top: var(--space-12); }
+    @media (min-width: 1024px) { .concepts { grid-template-columns: repeat(3, 1fr); } }
+    .concept { background: var(--color-surface); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; }
+    .concept--pick { outline: 3px solid var(--color-accent); outline-offset: -3px; }
+    .concept__art { background: var(--brand-cream); aspect-ratio: 4 / 3; display: grid; place-items: center; padding: var(--space-8); }
+    .concept__art img { height: 11rem; width: auto; max-width: 100%; object-fit: contain; }
+    .concept__body { padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); flex: 1; }
+    .concept__head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); flex-wrap: wrap; }
+    .concept h3 { font-size: var(--text-xl); }
+    .concept dl { margin: 0; display: grid; gap: var(--space-2); font-size: var(--text-sm); }
+    .concept dt { font-weight: 600; }
+    .concept dd { margin: 0; color: var(--color-text-muted); }
+    .tiny { display: flex; align-items: center; gap: var(--space-4); margin-top: auto; padding-top: var(--space-4); border-top: 1px solid var(--color-border); font-size: var(--text-xs); color: var(--color-text-muted); }
+    .tiny__sample { background: var(--brand-cream); border-radius: var(--radius-sm); padding: var(--space-2); display: flex; align-items: center; gap: var(--space-3); }
+    .tiny__sample img { height: 32px; width: auto; }
+
+    /* ---------- System ---------- */
+    .tiles { display: grid; gap: var(--space-4); margin-top: var(--space-12); grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); }
+    .tile { border-radius: var(--radius-lg); padding: var(--space-8); min-height: 14rem; display: flex; flex-direction: column; justify-content: space-between; gap: var(--space-6); }
+    .tile img { margin-inline: auto; max-height: 9rem; width: auto; }
+    .tile figcaption { font-size: var(--text-sm); font-weight: 600; }
+    .tile figcaption span { display: block; font-weight: 400; opacity: 0.75; }
+    .tile { margin: 0; }
+    .on-cream { background: var(--brand-cream); color: var(--brand-espresso); box-shadow: inset 0 0 0 1px var(--color-border); }
+    .on-latte { background: var(--brand-latte); color: var(--brand-espresso); box-shadow: inset 0 0 0 1px var(--color-border); }
+    .on-espresso { background: var(--brand-espresso); color: var(--brand-cream); }
+    .on-caramel { background: var(--brand-caramel); color: var(--brand-espresso); }
+    .sizes { display: flex; align-items: flex-end; justify-content: center; gap: var(--space-6); }
+    .tile .sizes img { margin: 0; width: var(--size); height: var(--size); max-height: none; }
+    .sizes figure { margin: 0; text-align: center; font-size: var(--text-xs); }
+
+    .clearspace { display: grid; place-items: center; background: var(--brand-cream); border-radius: var(--radius-lg); padding: var(--space-12) var(--space-4); margin-top: var(--space-6); box-shadow: inset 0 0 0 1px var(--color-border); }
+    .clearspace__box { padding: 1.9rem; outline: 1.5px dashed var(--color-accent); outline-offset: 0; background: repeating-linear-gradient(45deg, rgb(194 65 12 / 0.07) 0 6px, transparent 6px 12px); }
+    .clearspace__box img { width: min(26rem, 70vw); background: var(--brand-cream); }
+    .clearspace p { margin-top: var(--space-4); font-size: var(--text-sm); color: var(--brand-espresso); text-align: center; }
+
+    .rules { display: grid; gap: var(--space-6); margin-top: var(--space-12); }
+    @media (min-width: 768px) { .rules { grid-template-columns: 1fr 1fr; } }
+    .rules ul { margin: 0; padding-left: 1.2em; }
+    .rules li + li { margin-top: var(--space-2); }
+    .rules h3 { font-size: var(--text-xl); margin-bottom: var(--space-4); }
+    .donts { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: var(--space-3); margin-top: var(--space-4); }
+    .dont { margin: 0; background: var(--brand-cream); border-radius: var(--radius-md); padding: var(--space-4); display: grid; gap: var(--space-3); font-size: var(--text-xs); color: var(--brand-espresso); box-shadow: inset 0 0 0 1px var(--color-border); overflow: hidden; }
+    .dont__art { height: 3.5rem; display: grid; place-items: center; }
+    .dont__art img { height: 2.5rem; width: auto; max-width: 100%; object-fit: contain; }
+    .dont figcaption::before { content: "✕ "; color: var(--color-danger); font-weight: 700; }
+    .dont--stretch img { transform: scaleX(1.6); }
+    .dont--rotate img { transform: rotate(-14deg); }
+    .dont--photo .dont__art { background: repeating-linear-gradient(120deg, #8a5a3c 0 9px, #3d2618 9px 16px, #c49a6c 16px 24px); border-radius: var(--radius-sm); }
+    .dont--shadow img { filter: drop-shadow(3px 4px 0 var(--brand-caramel)); }
+
+    /* ---------- Applications ---------- */
+    .apps { display: grid; gap: var(--space-4); margin-top: var(--space-12); grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); }
+    .app { margin: 0; background: var(--color-surface); border-radius: var(--radius-lg); padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-4); box-shadow: var(--shadow-sm); }
+    .app figcaption { font-size: var(--text-sm); font-weight: 600; }
+    .app figcaption span { display: block; font-weight: 400; color: var(--color-text-muted); }
+    .app__stage { background: var(--brand-latte); border-radius: var(--radius-md); min-height: 13rem; display: grid; place-items: center; padding: var(--space-6); overflow: hidden; }
+
+    .tab { width: 100%; max-width: 15rem; background: #e7ddd0; border-radius: var(--radius-sm) var(--radius-sm) 0 0; padding: var(--space-2) var(--space-3); display: flex; align-items: center; gap: var(--space-2); font-size: var(--text-xs); color: var(--brand-espresso); }
+    .tab img { width: 16px; height: 16px; }
+    .browser { width: 100%; max-width: 15rem; }
+    .browser__page { background: var(--brand-cream); height: 6rem; border-radius: 0 0 var(--radius-sm) var(--radius-sm); }
+
+    .phone { width: 12rem; background: var(--brand-cream); border-radius: 1.6rem; border: 6px solid var(--brand-espresso); overflow: hidden; }
+    .phone__bar { height: 3.25rem; display: flex; align-items: center; justify-content: space-between; padding-inline: var(--space-3); border-bottom: 1px solid #E6D6C1; }
+    .phone__bar img { height: 1.6rem; width: auto; }
+    .phone__burger { width: 1.1rem; height: 0.7rem; border-block: 2px solid var(--brand-espresso); position: relative; }
+    .phone__burger::after { content: ""; position: absolute; inset: 0; margin: auto; height: 2px; background: var(--brand-espresso); }
+    .phone__body { height: 7rem; display: grid; gap: 0.4rem; padding: var(--space-3); align-content: start; }
+    .phone__body i { display: block; height: 0.5rem; border-radius: 99px; background: #E6D6C1; }
+    .phone__body i:first-child { height: 1rem; width: 80%; background: var(--brand-roast); opacity: 0.25; }
+
+    .avatar { width: 8rem; height: 8rem; border-radius: 50%; overflow: hidden; box-shadow: 0 0 0 3px var(--brand-cream), 0 0 0 5px #C2410C; }
+    .avatar img { width: 100%; height: 100%; }
+
+    .cup { position: relative; width: 8.5rem; height: 10.5rem; background: var(--brand-cream); clip-path: polygon(0 0, 100% 0, 88% 100%, 12% 100%); display: grid; place-items: center; box-shadow: inset 0 -1.2rem 0 var(--brand-roast); }
+    .cup::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 0.9rem; background: #E6D6C1; }
+    .cup img { width: 5.4rem; margin-top: -0.6rem; }
+
+    .bag { width: 9rem; height: 11.5rem; background: var(--brand-roast); border-radius: 0.4rem 0.4rem 0.8rem 0.8rem; position: relative; display: grid; place-items: center; padding: var(--space-4); }
+    .bag::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1.4rem; background: repeating-linear-gradient(90deg, #5e3119 0 4px, var(--brand-roast) 4px 8px); border-radius: 0.4rem 0.4rem 0 0; }
+    .bag img { width: 78%; background: var(--brand-cream); border-radius: var(--radius-sm); padding: var(--space-2); }
+
+    .sign { width: 100%; max-width: 15rem; background: var(--brand-espresso); border-radius: var(--radius-md); padding: var(--space-6) var(--space-4); box-shadow: 0 10px 0 -4px #1a110c; }
+
+    /* ---------- Voice ---------- */
+    .voice { width: 100%; border-collapse: collapse; margin-top: var(--space-8); font-size: var(--text-base); }
+    .voice th, .voice td { text-align: left; padding: var(--space-4); vertical-align: top; border-bottom: 1px solid var(--color-border); }
+    .voice th { font-size: var(--text-sm); text-transform: uppercase; letter-spacing: var(--tracking-eyebrow); }
+    .voice td:first-child { color: var(--color-text); }
+    .voice td:last-child { color: var(--color-text-muted); text-decoration: line-through; text-decoration-color: var(--color-danger); }
+    .table-wrap { overflow-x: auto; }
+
+    footer { padding-block: var(--space-12); font-size: var(--text-sm); color: var(--color-text-muted); }
+    footer a { color: var(--color-primary); text-underline-offset: 4px; }
+  </style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="container hero__grid">
+    <div>
+      <p class="eyebrow">Tuki Coffee · Nhận diện thương hiệu</p>
+      <h1>Một góc nhỏ để <em>chậm lại</em></h1>
+      <p class="lead">Logo “Phin chữ T”: chiếc phin đặt trên ly tạo thành chữ T, cạnh chữ “tuki” có giọt cà phê thay dấu chấm chữ i. Dựng trên design system của Tuki: bảng màu rang đậm, cam Tuki, caramel và bộ chữ Fraunces, Be Vietnam Pro.</p>
+      <p style="margin-top: var(--space-6)"><span class="chip chip--fresh">Đã chốt · 26/09/2026</span></p>
+    </div>
+    <div class="hero__logo">
+      <img src="logo/tuki-lockup-horizontal.svg" alt="Logo Tuki Coffee: biểu tượng phin trên ly cạnh chữ tuki có giọt cà phê thay dấu chấm chữ i" width="511" height="226">
+    </div>
+  </div>
+</header>
+
+<section class="section--inverse section" aria-labelledby="platform">
+  <div class="container">
+    <p class="eyebrow">Nền tảng thương hiệu</p>
+    <h2 id="platform" class="section-title">Tuki là ai</h2>
+    <p class="essence">“Một góc nhỏ để <em>chậm lại</em>.”</p>
+    <div class="traits">
+      <article class="trait">
+        <h3>Ấm áp</h3>
+        <p>Như người quen pha cho mình ly cà phê.</p>
+        <p class="not">Không sến, không khách sáo.</p>
+      </article>
+      <article class="trait">
+        <h3>Mộc</h3>
+        <p>Nói thật về hạt, cách rang, cách pha.</p>
+        <p class="not">Không thô, không “vintage cho có”.</p>
+      </article>
+      <article class="trait">
+        <h3>Chăm chút</h3>
+        <p>Chi tiết nhỏ được làm kỹ, mỗi ly một lần pha.</p>
+        <p class="not">Không cầu kỳ, không dạy đời.</p>
+      </article>
+      <article class="trait">
+        <h3>Vui vừa đủ</h3>
+        <p>Chút tinh nghịch: chữ nghiêng, màu caramel.</p>
+        <p class="not">Không ồn ào, không chạy theo trend.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt" aria-labelledby="system">
+  <div class="container">
+    <p class="eyebrow">Hệ thống logo</p>
+    <h2 id="system" class="section-title">Một biểu tượng, nhiều <em>cách đứng</em></h2>
+    <p class="lead">Cam Tuki trong logo chỉ dành cho giọt cà phê. Chữ và biểu tượng luôn một màu: rang đậm trên nền sáng, kem trên nền espresso, espresso khi in một màu.</p>
+
+    <div class="tiles">
+      <figure class="tile on-cream">
+        <img src="logo/tuki-lockup-horizontal.svg" alt="Logo ngang trên nền kem" width="511" height="226">
+        <figcaption>Logo ngang · nền kem<span>Bảng hiệu, menu, hóa đơn, ảnh bìa</span></figcaption>
+      </figure>
+      <figure class="tile on-espresso">
+        <img src="logo/tuki-lockup-horizontal-reverse.svg" alt="Logo ngang đảo màu trên nền espresso" width="511" height="226">
+        <figcaption>Đảo màu · nền espresso<span>Bảng hiệu tối, nền espresso</span></figcaption>
+      </figure>
+      <figure class="tile on-caramel">
+        <img src="logo/tuki-lockup-horizontal-mono.svg" alt="Logo ngang một màu espresso trên nền caramel" width="511" height="226">
+        <figcaption>Một màu · nền caramel<span>Con dấu mực, khắc laser, in một màu</span></figcaption>
+      </figure>
+      <figure class="tile on-cream">
+        <img src="logo/tuki-lockup-compact.svg" alt="Logo compact: biểu tượng phin và chữ tuki, không có dòng COFFEE" width="487" height="187">
+        <figcaption>Logo compact<span>Header, footer website, chữ ký email · cao ≥ 28px</span></figcaption>
+      </figure>
+      <figure class="tile on-latte">
+        <img src="logo/tuki-avatar.svg" alt="Avatar mạng xã hội: biểu tượng phin màu kem trên nền rang đậm, cắt tròn" width="100" height="100" style="border-radius: 50%; height: 9rem">
+        <figcaption>Avatar<span>Facebook, Instagram, TikTok, Google Maps</span></figcaption>
+      </figure>
+      <figure class="tile on-latte">
+        <img src="logo/tuki-lockup-stacked.svg" alt="Logo đứng trên nền latte" width="305" height="379">
+        <figcaption>Logo đứng · nền latte<span>Túi hạt, ly, poster</span></figcaption>
+      </figure>
+      <figure class="tile on-cream">
+        <div class="sizes">
+          <figure><img src="logo/tuki-favicon.svg" alt="Favicon cỡ 64px" width="64" height="64" style="--size: 64px">64</figure>
+          <figure><img src="logo/tuki-favicon.svg" alt="Favicon cỡ 32px" width="32" height="32" style="--size: 32px">32</figure>
+          <figure><img src="logo/tuki-favicon.svg" alt="Favicon cỡ 16px" width="16" height="16" style="--size: 16px">16</figure>
+          <figure><img src="logo/tuki-symbol.svg" alt="Biểu tượng phin chữ T" width="96" height="96" style="--size: 96px">symbol</figure>
+        </div>
+        <figcaption>Favicon và biểu tượng<span>Tab trình duyệt, avatar, icon app</span></figcaption>
+      </figure>
+      <figure class="tile on-cream">
+        <img src="logo/tuki-seal.svg" alt="Con dấu tròn: TUKI COFFEE, RANG MỘC, PHA TẬN TÂM quanh biểu tượng phin" width="400" height="400">
+        <figcaption>Con dấu<span>Tem ly, nắp hộp, túi giấy · tối thiểu 25mm</span></figcaption>
+      </figure>
+    </div>
+
+    <div class="rules">
+      <div>
+        <h3>Khoảng trống và cỡ tối thiểu</h3>
+        <ul>
+          <li>Khoảng trống quanh logo ≥ chiều cao giọt cà phê trên chữ i.</li>
+          <li>Logo ngang, logo đứng ≥ 200px trên màn hình, ≥ 30mm khi in; nhỏ hơn thì dùng logo compact.</li>
+          <li>Logo compact cao ≥ 28px trên màn hình, ≥ 8mm khi in.</li>
+          <li>Biểu tượng ≥ 24px / 8mm; nhỏ hơn thì dùng favicon.</li>
+          <li>Con dấu ≥ 25mm khi in.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Không làm</h3>
+        <div class="donts">
+          <figure class="dont dont--stretch"><div class="dont__art"><img src="logo/tuki-symbol.svg" alt="" width="56" height="56"></div><figcaption>Kéo giãn</figcaption></figure>
+          <figure class="dont dont--rotate"><div class="dont__art"><img src="logo/tuki-lockup-horizontal.svg" alt="" width="140" height="62"></div><figcaption>Xoay logo chính</figcaption></figure>
+          <figure class="dont dont--photo"><div class="dont__art"><img src="logo/tuki-lockup-horizontal.svg" alt="" width="140" height="62"></div><figcaption>Đặt lên ảnh rối</figcaption></figure>
+          <figure class="dont dont--shadow"><div class="dont__art"><img src="logo/tuki-lockup-horizontal.svg" alt="" width="140" height="62"></div><figcaption>Thêm bóng, hiệu ứng</figcaption></figure>
+        </div>
+      </div>
+    </div>
+
+    <div class="clearspace">
+      <div class="clearspace__box"><img src="logo/tuki-lockup-horizontal.svg" alt="Logo ngang với vùng khoảng trống bao quanh" width="511" height="226"></div>
+      <p>Vùng gạch chéo: khoảng trống tối thiểu, bằng chiều cao giọt cà phê.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="apps">
+  <div class="container">
+    <p class="eyebrow">Ứng dụng</p>
+    <h2 id="apps" class="section-title">Nơi khách <em>gặp</em> Tuki</h2>
+    <p class="lead">Phác thảo vị trí logo trên các điểm chạm ưu tiên, chưa phải mockup in ấn.</p>
+
+    <div class="apps">
+      <figure class="app">
+        <div class="app__stage">
+          <div class="browser">
+            <div class="tab"><img src="logo/tuki-favicon.svg" alt="" width="16" height="16">Tuki Coffee — Rang mộc</div>
+            <div class="browser__page"></div>
+          </div>
+        </div>
+        <figcaption>Favicon<span>Tab trình duyệt, 16px</span></figcaption>
+      </figure>
+      <figure class="app">
+        <div class="app__stage">
+          <div class="phone">
+            <div class="phone__bar"><img src="logo/tuki-lockup-compact.svg" alt="" width="87" height="33"><span class="phone__burger"></span></div>
+            <div class="phone__body"><i></i><i></i><i></i><i style="width: 60%"></i></div>
+          </div>
+        </div>
+        <figcaption>Header mobile<span>Logo compact cao 36px</span></figcaption>
+      </figure>
+      <figure class="app">
+        <div class="app__stage">
+          <div class="avatar"><img src="logo/tuki-avatar.svg" alt="" width="128" height="128"></div>
+        </div>
+        <figcaption>Avatar mạng xã hội<span>Facebook, Instagram, Google Maps</span></figcaption>
+      </figure>
+      <figure class="app">
+        <div class="app__stage"><div class="cup"><img src="logo/tuki-seal.svg" alt="" width="86" height="86"></div></div>
+        <figcaption>Ly giấy<span>Con dấu trên thân ly</span></figcaption>
+      </figure>
+      <figure class="app">
+        <div class="app__stage"><div class="bag"><img src="logo/tuki-lockup-stacked.svg" alt="" width="305" height="379"></div></div>
+        <figcaption>Túi hạt<span>Logo đứng trên nhãn kem</span></figcaption>
+      </figure>
+      <figure class="app">
+        <div class="app__stage"><div class="sign"><img src="logo/tuki-lockup-horizontal-reverse.svg" alt="" width="220" height="97"></div></div>
+        <figcaption>Bảng hiệu<span>Đảo màu trên nền espresso</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt" aria-labelledby="voice">
+  <div class="container">
+    <p class="eyebrow">Giọng nói</p>
+    <h2 id="voice" class="section-title">Nói như người <em>pha</em> cà phê</h2>
+    <p class="lead">Xưng “chúng tôi” hoặc “Tuki”, gọi khách là “bạn”. Câu ngắn, nói về ly cà phê thật.</p>
+    <div class="table-wrap">
+      <table class="voice">
+        <thead><tr><th scope="col">Nên viết</th><th scope="col">Tránh viết</th></tr></thead>
+        <tbody>
+          <tr><td>Hạt rang tuần này là Cầu Đất, ngọt hậu, ít chua.</td><td>Trải nghiệm hương vị đỉnh cao chưa từng có!</td></tr>
+          <tr><td>Mỗi ly một lần pha, nên bạn chờ thêm chút nhé.</td><td>Xin quý khách vui lòng kiên nhẫn chờ đợi.</td></tr>
+          <tr><td>Hôm nay Tuki mở đến 22:00.</td><td>Ghé ngay kẻo lỡ!!!</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="concepts">
+  <div class="container">
+    <p class="eyebrow">Quá trình chọn logo</p>
+    <h2 id="concepts" class="section-title">Ba hướng đã <em>cân nhắc</em></h2>
+    <p class="lead">Cả ba chung một chi tiết: chấm của chữ i là giọt cà phê màu cam Tuki. Hướng B được chọn vì có biểu tượng riêng, vẫn rõ ở cỡ nhỏ. A và C lưu trong <code>logo/concepts/</code> để tham khảo.</p>
+
+    <div class="concepts">
+      <article class="concept">
+        <div class="concept__art"><img src="logo/concepts/concept-a-wordmark.svg" alt="Hướng A: chữ tuki và dòng COFFEE, giọt cà phê trên chữ i" width="366" height="276"></div>
+        <div class="concept__body">
+          <div class="concept__head"><h3>A · Giọt chậm</h3><span class="chip chip--muted">Không chọn</span></div>
+          <p>Chỉ có chữ. Cá tính nằm ở nét mềm của Fraunces và giọt cà phê trên chữ i.</p>
+          <dl>
+            <dt>Điểm mạnh</dt><dd>Gần wordmark tạm đang dùng; dễ in, thêu, khắc.</dd>
+            <dt>Rủi ro</dt><dd>Không có biểu tượng riêng cho favicon, avatar, tem ly.</dd>
+          </dl>
+          <div class="tiny"><div class="tiny__sample"><img src="logo/concepts/concept-a-wordmark.svg" alt="" width="44" height="32"></div>Ở 32px: vẫn đọc được, giọt còn rõ.</div>
+        </div>
+      </article>
+
+      <article class="concept concept--pick">
+        <div class="concept__art"><img src="logo/tuki-lockup-stacked.svg" alt="Hướng B: phin đặt trên ly tạo thành chữ T, bên dưới là chữ tuki" width="305" height="379"></div>
+        <div class="concept__body">
+          <div class="concept__head"><h3>B · Phin chữ T</h3><span class="chip chip--fresh">Đã chọn</span></div>
+          <p>Phin đặt trên ly: đĩa phin là nét ngang, ly là thân dọc, thành chữ <strong>T</strong> ẩn. Giọt cà phê trong ly lặp lại giọt trên chữ i.</p>
+          <dl>
+            <dt>Điểm mạnh</dt><dd>Phin là cách pha chậm của Việt Nam, khớp với “chậm lại” và “hạt Việt”; có biểu tượng dùng độc lập.</dd>
+            <dt>Rủi ro</dt><dd>Kể sai câu chuyện nếu quán chủ yếu pha máy.</dd>
+          </dl>
+          <div class="tiny"><div class="tiny__sample"><img src="logo/tuki-favicon.svg" alt="" width="32" height="32"><img src="logo/tuki-symbol.svg" alt="" width="32" height="32"></div>Ở 32px: hình phin và chữ T vẫn rõ.</div>
+        </div>
+      </article>
+
+      <article class="concept">
+        <div class="concept__art"><img src="logo/concepts/concept-c-sticker.svg" alt="Hướng C: chữ tuki nghiêng màu espresso trên mảng blob caramel" width="480" height="320"></div>
+        <div class="concept__body">
+          <div class="concept__head"><h3>C · Sticker</h3><span class="chip chip--muted">Không chọn</span></div>
+          <p>Chữ nghiêng trên mảng blob caramel, xoay nhẹ như sticker dán lên ly.</p>
+          <dl>
+            <dt>Điểm mạnh</dt><dd>Nổi nhất trên mạng xã hội và bao bì; trẻ, vui.</dd>
+            <dt>Rủi ro</dt><dd>Phụ thuộc mảng nền màu; bản một màu trên nền tối yếu. Hợp làm dấu phụ cho merch.</dd>
+          </dl>
+          <div class="tiny"><div class="tiny__sample"><img src="logo/concepts/concept-c-sticker.svg" alt="" width="48" height="32"></div>Ở 32px: chữ nhỏ, cần dùng biểu tượng khác.</div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    Quy tắc đầy đủ: <a href="brand-identity.md">brand-identity.md</a> · Token: <a href="../design-system/MASTER.md">design system</a>
+  </div>
+</footer>
+
+</body>
+</html>
