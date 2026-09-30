@@ -3,6 +3,20 @@
 
 # Dependencies
 node_modules/
+/.pnp
+.pnp.*
+
+# Next.js
+/.next/
+/out/
+/build
+next-env.d.ts
+*.tsbuildinfo
+.vercel
+
+# Debug
+npm-debug.log*
+*.pem
 
 # Environment files
 .env
@@ -12,3 +26,9 @@ node_modules/
 # Local AI tooling (AgentKit / Claude Code)
 .claude/
 .agentkit/
+
+# Brand tooling: fonts downloaded by docs/brand/tools/build-logos.py
+docs/brand/tools/.fonts/
+
+# Website font tooling: fonts downloaded by docs/design-system/tools/build-fonts.py
+docs/design-system/tools/.fonts/
